@@ -1,0 +1,18 @@
+#include <iostream>
+using namespace std;
+
+int multiply(int a) {
+    int four = a + a + a + a;
+    return four;
+}
+
+int main() {
+    int num1;
+    cout << "Enter an integer: ";
+    cin >> num1;
+
+    int result = multiply(num1);
+    cout << num1 << " times 4 = " << result << endl;
+
+    return 0;
+}

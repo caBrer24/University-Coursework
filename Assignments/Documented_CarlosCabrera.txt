@@ -1,0 +1,78 @@
+/*
+Program: Review and Document
+Name: Carlos Cabrera
+Date: 03/26/2026
+Purpose: To manually add two large numbers represented as strings by iterating through them 
+         from right to left to make it easier to separate thousands, hundreds, tens, etc. It calculates 
+         the sum of each column and carrying over the tens digit to the next column.
+*/
+
+#include <iostream> 
+#include <string>   // String library to use and manipulate std::string objects
+#include <cstdlib>  // Standard library functions
+
+using namespace std; // Allows us to use standard namespace elements like cout and string without the std:: prefix
+
+int main ()
+{
+
+    // Initialize string variables with the numbers to add
+    string snum1 = "55699";
+    string snum2 = "22299";
+    
+    // Initialize a string with zeros to hold the final result
+    string sresult = "000000" ;
+    
+    // String to temporarily stores the sum of two single digits
+    string sintAdded ;
+    
+    // Integer to hold the carry-over value for the next column
+    int icarry = 0;
+
+    // Print the mathematical expression to the screen without a newline
+    cout << snum1 << " + " << snum2 ;
+    
+    // Loop through string starting from the last character's index down to 0.
+    // BUG: sizeof(snum1) returns the memory size of the string object itself, 
+    // not the number of characters in the string. This will cause the loop to go out-of-bounds.
+    // Use "int i = snum1.length() - 1;" instead
+
+	for (int i = sizeof (snum1)-2; i > -1; i-- ) 
+	{
+        // int values, add them together, and add the previous carry
+        int iint = (int (snum1[i] -'0' + snum2[i] - '0')) + (icarry);
+        
+        // Convert the resulting integer sum back into a string
+        sintAdded = to_string(iint) ;
+
+        // Check if the sum resulted in a two-digit number, and carry a value
+        if (sintAdded.length() == 2)
+        {
+            // Place the ones-place digit (index 1) into the correct spot in our result string
+            sresult[i+1] = sintAdded[1] ;
+            
+            // Extract the tens-place digit (index 0), convert it back to an int, and store it in icarry
+            icarry = (sintAdded[0] - '0') ;
+        }
+        else // If the sum is only a single digit, then there's no carry need it
+        {
+            // Single digit directly into the result string
+            sresult[i+1] = sintAdded[0];
+            
+            // Reset the carry to 0 
+            icarry = 0;
+        }
+
+    }
+    
+    // After the loop finishes, check if the very last addition resulted in a two-digit number
+    if (sintAdded.length() == 2 )
+   
+        sresult [0] = sintAdded[0] ;
+        
+    // Print the final calculated result
+    cout << " = " << sresult << endl;
+
+   
+    return 0;
+}
